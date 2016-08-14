@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#introduce{width:200px;height:auto;position: absolute;left: 0;top:100px;border: 1px solid deepskyblue;}
+	#box{height: 400px;width: 400px;border: 1px solid lightgrey;margin: 0 auto;position:relative;overflow:hidden;background: yellow;}
+	#main{height:400px;width:400px;position: absolute;background: gray;top:-100px}
+	#index,#suc,#lose{height: 400px;width: 400px;position: absolute;z-index: 999;}
+	.choose{height: 200px;width: 200px;float: left;}
+	.row{height:100px;width: 100%;}
+	.cell{height:100px;width:100px;float: left;background: white;}
+	.black{background:black;height:100px;width:100px;float: left;color: white;text-align: center;line-height: 100px;font-size: 30px}
+	#score{font-size: 30px;text-align: center;line-height: 30px;}
+	.index1{background: white;color: black;font-size: 50px;text-align: center;line-height: 200px;}
+	.index2{background: black;color: white;font-size: 50px;text-align: center;line-height: 200px;}
+	h1{text-align: center;position: absolute;left:0;right:0;top:0px;color: red;z-index: 999;font-size: 30px;opacity: 0.7;}
+	#suc{background:#66DB3C;display:none;z-index: 999;}
+	#lose{background:#E53232;display:none;z-index: 999;}
+	.back,.rest{width: 160px;height:80px;margin:30px auto;border: 2px solid white;border-radius:10px;line-height: 80px;font-size: 40px;text-align: center;color: white;line-height: 80px;}
+	h3,h2{height: 35px;text-align: center;color: white;font-size: 35px;}
+	</style>
+	<script>
+	window.onload=function () {
+	var aCho=document.getElementsByClassName('choose')
+	var arr=[]
+	var timer=null;
+	var timer1=null;
+	var timer2=null;
+	var timer3=null;
+	var timer4=null;
+	var state=0//初试0；结束：1
+	var speed=2;
+	var n3=0;
+	var aRest=document.getElementsByClassName('rest');
+	var aBack=document.getElementsByClassName('back');
+	var aH2=document.getElementsByTagName('h2');
+	var aH3=document.getElementsByTagName('h3');
+	var str=''
+	var type=0 //1经典 2街机 3禅
+	var  aAudio=document.getElementsByTagName('audio')
+	var  volume=0
+
+	aCho[1].onclick=function(){
+	
+		$('index').style.display="none";
+		int()
+	}
+	aCho[0].onclick=function(){
+		$('index').style.display="none";
+
+		clas()
+	}
+	aCho[2].onclick=function(){
+	
+		$('index').style.display="none";	
+		deep()
+	}
+	aCho[3].onclick=function(){
+		if(volume==0){
+		for(var i=0;i<aAudio.length;i++){
+			aAudio[i].volume=0.5
+		}
+		$('try').play()
+		volume=0.5
+		aCho[3].innerHTML="音量：小"
+		}
+		else if(volume==0.5){
+			for(var i=0;i<aAudio.length;i++){
+				aAudio[i].volume=1
+			}
+			$('try').play()
+			volume=1
+			aCho[3].innerHTML="音量：大"
+		}
+		else if(volume==1){
+			for(var i=0;i<aAudio.length;i++){
+			aAudio[i].volume=0
+			}
+			volume=0
+			aCho[3].innerHTML="音量：无"
+		}
+		
+	}	
+	aRest[0].onclick=function(){
+		dotype()
+	}
+	aRest[1].onclick=function(){
+		
+		dotype()
+	}
+	aBack[0].onclick=function(){
+		$('back').play()
+		back()
+	}	
+	aBack[1].onclick=function(){
+		$('back').play()
+		back()
+		
+	}	
+	function row(className){
+		var row=div('row')
+		var mai=$('main')
+		n3++
+		for (var i=0;i<4;i++) {
+			row.appendChild(div('cell'))
+		}
+		if(mai){mai.insertBefore(row,mai.firstChild)}
+		else {mai.appendChild(row)}
+	}		
+
+	function div(className){
+		var div=document.createElement('div')
+		div.className=className;
+		return div;
+	}
+	function rand(n){
+		for(var i=0;i<n;i++){
+		num=Math.floor((Math.random()+i)*n)
+		arr.push(num)
+		}	
+	}
+	
+	function move(){
+		var main=$('main')
+		var mtop=0
+		var rows=main.children		
+		mtop=parseInt(getStyle(main,'top'));
+		if(speed+mtop>0){main.style.top='0'}
+		else{
+		main.style.top=mtop+speed+'px';}
+		if(mtop==0){
+			row()
+			main.style.top='-100px'
+			del()
+			var aD=document.getElementsByClassName('cell')
+			n=Math.floor(Math.random()*4)
+			aD[n].style.background='black'
+		}
+		else if(mtop==speed-100&&rows.length==5&&rows[4].pass!==1){
+			suc()
+		}
+	}
+	function move1(){
+		var main=$('main')
+		var rows=main.children			
+		mtop=parseInt(getStyle(main,'top'));
+		if(speed+mtop>0){main.style.top='0'}
+		else{
+		main.style.top=mtop+speed+'px';}	
+		
+	}
+	function del(){
+		var mai=$('main')
+		if(main.children.length==6){
+		mai.removeChild(mai.lastChild)
+		}
+	}
+	function rrand(n1){
+		var aD=document.getElementsByClassName('cell')
+		rand(n1)
+		for(var i=0;i<n1;i++){
+		var n=arr[i]
+		aD[n].className='black cell'
+		}
+	}
+
+
+	function score(){
+		n=$('score').innerHTML
+		if(n%20==0)up();
+		n++;
+		$('score').innerHTML=n
+	}
+	function up(){
+		speed+=2
+		if(speed==20)alert('你开挂了吧')
+	}
+	function time(){
+		var n=parseInt($('score').innerHTML)
+		clearInterval(timer3)
+		timer3=setInterval(t1,100)
+		function t1(){
+			n++
+			s=(n/10-Math.floor(n/600)*60)
+			if(s<10)s='0'+s
+			s=s.toString()
+			if(s.length==2)s=s+'.0'
+			s=s.substring(0,4)
+			$('score').innerHTML=Math.floor(n/600)+'分'+s+'秒'
+		}
+	}
+	function int(){
+		index1.play()
+		type=2
+		arr=[]
+		speed=2;
+		$('score').innerHTML=0
+		$('main').style.display='block'
+		for(var i=0;i<4;i++){
+		row()	
+		}	
+		rrand(4)
+		
+		var aD=document.getElementsByClassName('cell')		
+		aD[arr[3]].innerHTML='Start'
+		aD[arr[3]].onclick=function(){
+			clearInterval(timer)
+			timer=setInterval(move,30)
+			}
+		$('main').onclick=function(ev){
+			var ev=ev||event;
+			var color=getStyle(ev.target,'backgroundColor')
+			var b='rgb(0, 0, 0)'
+			if(color===b){
+			click.play()		
+			score()
+			ev.target.style.background='white'
+			ev.target.parentNode.pass=1
+			}
+			else{
+				rong.play()
+				clearInterval(timer)			
+				var n=0
+				ev.target.style.background = 'red'
+				function twinkle() {
+					n++
+					function red() {
+						ev.target.style.background = 'red'
+					}
+					function white() {
+						ev.target.style.background = 'white'
+						clearTimeout(ev.target.timer)
+						ev.target.timer = setTimeout(red, 200)
+				}
+					clearTimeout(ev.target.timer)
+					ev.target.timer = setTimeout(white, 200)
+			}	
+			str='经典模式'
+			clearInterval(twinkle.timer)
+			twinkle.timer=setInterval(twinkle,410)	
+			if(n>=2){clearInterval(twinkle.timer)}
+			clearTimeout(ev.target.timer1)
+			ev.target.timer1=setTimeout(suc,1000)
+
+		}
+		}
+	}
+	function clas(){
+		type=1
+		n3=0
+		arr=[]
+		speed=4
+		index1.play()		
+		$('main').style.top='-100px'
+		$('score').innerHTML=0
+		$('main').style.display='block'	
+		var main=$('main')
+
+		var rows=main.children
+		for(var i=0;i<4;i++){
+		row()	
+		}	
+		rrand(4)
+		var aD=document.getElementsByClassName('cell')		
+		aD[arr[3]].innerHTML='Start'
+		aD[arr[3]].onclick=function(){
+				time()
+			}
+		$('main').onclick=function(ev){
+			mtop=parseInt(getStyle(main,'top'));		
+			var ev=ev||event;
+			var color=getStyle(ev.target,'backgroundColor')
+			var b='rgb(0, 0, 0)'
+			if(color===b){
+			click.play()	
+			clearInterval(timer1)
+			timer1=setInterval(move1,30)
+			if(mtop==0){clearInterval(timer1)}
+			ev.target.style.background='white'
+			ev.target.parentNode.pass=1
+			row()
+			main.style.top='-100px'
+			del()
+			var aD=document.getElementsByClassName('cell')
+			n=Math.floor(Math.random()*4)
+			aD[n].style.background='black'			
+			}
+			else{
+				rong.play()
+				clearInterval(timer1)
+				clearInterval(timer3)
+				var n=0
+				ev.target.style.background = 'red'
+				function twinkle() {
+					n++
+					function red() {
+						ev.target.style.background = 'red'
+					}
+					function white() {
+						ev.target.style.background = 'white'
+						clearTimeout(ev.target.timer)
+						ev.target.timer = setTimeout(red, 200)
+				}
+					clearTimeout(ev.target.timer)
+					ev.target.timer = setTimeout(white, 200)
+			}
+				clearInterval(twinkle.timer)
+				twinkle.timer=setInterval(twinkle,410)	
+				if(n>=2){clearInterval(twinkle.timer)}
+				clearTimeout(ev.target.timer1)
+				str='经典模式'			
+				ev.target.timer1=setTimeout(lose,1000)
+			}
+			if(n3==25){		
+			str1='经典模式'
+			str2=$('score').innerHTML		
+				suc()
+			}	
+		}
+	}
+	function deep(){
+		type=3
+		speed=4
+		arr=[]
+		index1.play()	
+		var num=1
+		$('main').style.display='block'		
+		var main=$('main')
+		var mtop=parseInt(getStyle(main,'top'));
+		var rows=main.children
+		for(var i=0;i<4;i++){
+		row()	
+		}	
+		rrand(4)
+		var aD=document.getElementsByClassName('cell')		
+		aD[arr[3]].innerHTML='Start'
+		aD[arr[3]].onclick=function(){
+				count()
+			}
+		
+		$('main').onclick=function(ev){
+			click.play()
+			var ev=ev||event;
+			var color=getStyle(ev.target,'backgroundColor')
+			var b='rgb(0, 0, 0)'
+			mtop=parseInt(getStyle(main,'top'));
+			if(color===b){	
+				num++
+				clearInterval(timer4)
+				timer4=setInterval(move1,30)
+				row()
+				main.style.top='-100px'
+				del()
+				var aD=document.getElementsByClassName('cell')
+				n=Math.floor(Math.random()*4)
+				aD[n].className='black'					
+				ev.target.style.background='white'
+				ev.target.parentNode.pass=1	
+
+			}
+			else{
+				str='禅镜模式'	
+				rong.play()
+				clearInterval(timer2)
+				clearInterval(timer4)
+				var n=0
+				ev.target.style.background = 'red'
+				function twinkle() {
+					n++
+					function red() {
+						ev.target.style.background = 'red'
+					}
+					function white() {
+						ev.target.style.background = 'white'
+						clearTimeout(ev.target.timer)
+						ev.target.timer = setTimeout(red, 200)
+				}
+					clearTimeout(ev.target.timer)
+					ev.target.timer = setTimeout(white, 200)
+			}
+				clearInterval(twinkle.timer)
+				twinkle.timer=setInterval(twinkle,410)	
+				if(n>=2){clearInterval(twinkle.timer)}
+				clearTimeout(ev.target.timer1)		
+				ev.target.timer1=setTimeout(lose,1000)
+			}
+			if($('score').innerHTML=='0秒'){				
+				str='禅境模式'
+				$('score').innerHTML==num
+				suc()
+			}	
+		}
+	}
+	function count(){		
+		var n=30
+		clearInterval(timer2)
+		timer2=setInterval(t2,100)
+		function t2(){
+			n=n-0.1
+			n=n.toFixed(1)	
+			if(n==0)n=0
+			$('score').innerHTML=n+'秒'
+			if (n == 0) clearInterval(timer2)
+}
+}
+	
+	function dotype(){
+		$('lose').style.display='none'
+		$('suc').style.display='none'		
+			var aChild=$('main').childNodes
+			var len=aChild.length
+			for(var i=len-1;i>=0;i--){
+			$('main').removeChild(aChild[i])
+			}		
+		if(type==1)clas()
+		else if(type==2)int()
+		else if(type==3)deep()
+		
+	}
+
+	function back() {
+		$('suc').style.display='none'
+			$('lose').style.display='none'
+			$('main').style.display='none'
+			$('score').innerHTML=''
+			var aChild=$('main').childNodes
+			var len=aChild.length
+			for(var i=len-1;i>=0;i--){
+			$('main').removeChild(aChild[i])
+			}
+	
+			$('index').style.display='block'		
+		}
+	function suc(){
+		clearInterval(timer)
+		clearInterval(timer1)
+		clearInterval(timer2)
+		clearInterval(timer3)
+		clearInterval(timer4)	
+
+		aH2[1].innerHTML=str
+		if(type==3){aH3[1].innerHTML=num}
+		else{
+		aH3[1].innerHTML=$('score').innerHTML}		
+		$('suc').style.display='block'
+		state=1		
+	}
+	function lose(){
+		clearInterval(timer)
+		clearInterval(timer1)
+		clearInterval(timer2)
+		clearInterval(timer3)
+		clearInterval(timer4)
+		aH2[0].innerHTML=str
+		if(type==3){aH3[0].innerHTML=num}
+		else{
+		aH3[0].innerHTML=$('score').innerHTML}		
+		$('lose').style.display='block'
+		state=1
+	}
+	function getStyle(obj,attr){return obj.currentStyle?obj.currentStyle[attr]:getComputedStyle(obj)[attr]}
+	function $(id) {
+		return document.getElementById(id)
+}
+	}
+	</script>
+</head>
+<body>
+	<div id="introduce">说明：</br>目前完美支持火狐、Microsoft Edge.</div>
+ <audio  id="try">
+  <source src="music/try.ogg" type="audio/ogg">
+  <source src="music/try.mp3" type="audio/mpeg">
+</audio>
+ <audio  id="index1">
+  <source src="music\index.wav" type="audio/wav">
+    <source src="music/index1.mp3" type="audio/mpeg">	
+</audio>
+ <audio  id="click">
+  <source src="music/click.wav" type="audio/wav">
+   <source src="music/click.mp3" type="audio/mpeg"> 	
+</audio>
+</audio>
+ <audio  id="rong">
+  <source src="music/rong.wav" type="audio/wav">
+   <source src="music/rong.mp3" type="audio/mpeg"> 	
+</audio>
+ <audio  id="back">
+  <source src="music\back.wav" type="audio/wav">
+   <source src="music/back.mp3" type="audio/mpeg"> 	
+</audio>
+<h1 id="score">0</h1>	
+<div id="box">
+<div id="index">
+	<div class="choose index1" >经典</div>
+	<div class="choose index2" >街机</div>
+	<div class="choose index2" >禅镜</div>
+	<div class="choose index1" >音量：无</div>
+</div>
+<div id="lose">
+	<h2></h2>
+	<h3></h3>
+	<div class="back">返回</div>
+	<div class="rest">重来</div>
+</div>
+<div id="suc">
+	<h2></h2>
+	<h3></h3>
+	<div class="back">返回</div>
+	<div class="rest">重来</div>
+</div>
+
+<div id="main"></div>
+</div>
+</body>
+</html>
