@@ -1,0 +1,420 @@
+﻿*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;	
+	text-decoration: none;
+}
+body,html{
+	height: 100%;
+}
+#head{
+	background:url(../img/background.jpg) no-repeat;
+	background-size: cover;
+	display: block;
+	height: 100%;
+	width: 100%;
+	box-sizing: border-box;
+	position: relative;
+	}
+
+#content{
+	width: 80%;
+	margin: 0 auto;	
+	min-height: 100%;
+	position: relative;
+}
+h1{
+	width: 100%;
+
+
+}
+#logo{
+	height: 40px ;
+	font-family: 'Imprima-Regular';
+	color: white;
+	width: 60%;
+	position: absolute;
+	left: 0;
+	font-size:38px;
+	
+}
+#logo a{
+	color:white;
+}
+#nav-top{
+	right: 0;
+	width: 40%;
+	position: absolute;
+	height: 100px;
+
+}
+#nav-top a {
+	color: white;	
+}
+#nav-top li{
+	font-size: 18px;
+	list-style-type: none;
+	float:left;
+	width: 85px;
+	text-align: center;
+	line-height: 60px;
+	color: white;
+}
+#nav-static{
+	height: 100px;
+	position: absolute;
+}
+#nav-static li{
+	height: 100px;
+}
+#nav-move{
+	position:absolute;
+	top:0px;
+}
+#nav-move li{
+	opacity: 0;
+	height: 1px;
+}
+
+.home{
+	background:royalblue;
+	}
+.contact{
+	background: darkorange;
+	}
+.impress{
+	background:#29C4CA;
+}
+.product{
+	background: chartreuse;
+}
+.about{
+	background: purple;
+}
+
+nav a{
+	display: block;
+	text-decoration: none;
+}
+.move-color{
+	background: #01adef;
+
+
+}
+.home a:before,.home1 a:before{
+	content:'\2714';
+	display: block;
+	height: 40px;
+}
+.about a:before,.about1 a:before{
+	content:'\25ba';
+	display: block;
+	height: 40px;
+}
+.impress a:before,.impress1 a:before{
+	content:'\a9c3';
+	display: block;
+	height: 40px;
+	font-size: 10px;
+}
+.product a:before,.product1 a:before{
+	content:'\26df';
+	display: block;
+	height: 40px;
+}
+.contact a:before,.contact1 a:before{
+	content:'\2709';
+	display: block;
+	height: 40px;
+}
+#banner{
+	height: 250px;
+	position:absolute;
+	background-color: rgba(255,255,255,0.4);
+	bottom: 0;
+	overflow: hidden;
+	margin-top: 20px;
+}
+#banner1{
+	height: 250px;
+	left: 0px;
+	margin: 0 auto;
+	position: absolute;
+}
+#banner li{
+	list-style-type: none;
+	float: left;
+	height: 240px;
+	font-size: 20px;
+}
+#banner li img{
+	max-height: 250px;
+	margin: 0 auto;
+}
+#banner1 li:nth-child(odd){
+	line-height: 240px;
+	text-align: center;
+}
+#banner_select{
+	position: absolute;
+	bottom: 0;
+	right: 0;d;
+}
+#banner_select li{
+	float: left;
+	list-style-type: none;
+	background:#c0c0c0 ;
+	height: 30px;
+	width: 30px;
+	margin-left: 10px;
+	border-radius: 20px;
+	
+}
+#banner_select li:hover{
+	background: yellow ;
+}
+main{
+	width: 100%;
+	height: auto;
+}
+#display{
+	width:85%;
+	margin: 0 auto;
+	margin-top: 20px;
+	position: relative;
+
+}
+#display_fix{
+	width: 88%;
+	overflow: hidden;
+	height: 180px;
+	position: absolute;
+	left: 6%;
+	top:38px
+}
+#display h2{
+	font-size:25px ;
+	border-bottom:3px solid black;
+}
+#display_slide{
+	position: absolute;
+	height: 150px;
+}
+#display_slide li{
+	float:left;
+	list-style-type: none;
+	border: 1px solid gray;
+	margin-left: 3px;
+	height: 150px;
+}
+#display_slide li img{
+	height: 150px;
+	width: 205px;	
+}
+#display_l{
+	width: 6%;
+	position: absolute
+	z-index: 99;
+	top:38px;
+	opacity: 0.5;
+}
+#display_l img{
+	width: 100%;
+	height: 150px;
+	
+}
+#display_r{
+	width: 6%;
+	z-index: 99;
+	right: 0;
+	left: 94%;
+	top:38px;
+	position: absolute;
+	opacity: 0.5;
+}
+#display_r img{
+	height: 150px;
+	width: 100%;
+	z-index: 999;
+}
+#display_pop{
+	position: absolute;
+	z-index: 999;
+	height: 100%;
+	width: 100%;
+	top:0;
+	background-color: rgba(255,255,255,0.4);	
+	text-align: center;
+	padding: 5%;
+	display: none;
+}
+#display_pop img{
+	height: 100%;	
+}
+#close{
+	position: absolute;
+	right: 0;
+	top:0;
+	font-size: 30px;
+}
+#display h3{
+	position: relative;
+	bottom:55px;
+	background-color: rgba(255,255,255,0.5);
+	text-align: center;
+	width: 205px;
+	height: 0px;
+	display: none;
+}
+/*#display h3:after{
+	content: '立即查看\2794';
+	right: 5px;
+	background: gray;
+	position: absolute;
+	color: white;
+}
+*/
+#display span{
+	background: grey;
+	color: white;
+	display: block;
+	font-weight: 100;
+}
+#professor h2{
+
+	font-size: 25px;
+	border-bottom: 3px solid black;
+}
+#professor{
+	padding-top: 20px;	
+	margin: 0 auto;
+	width: 85%;
+	position: relative;
+}
+#professor_box{
+	position: relative;
+	width: 100%;
+	display: inline-block;
+}
+#professor_box div{
+	height: 200px;
+	width: 200px;
+	background: url(../img/Deniro.jpg) no-repeat;
+	background-size: cover;
+	float: left;
+	margin: 5px;
+	transform: scale(1);
+	border: 1px solid gray;
+	text-align: center;
+	color: white;
+
+}
+#professor_box div:nth-child(8){
+	background: linear-gradient(#D84C29,red,#D84C29);
+	font-size: 25px;
+	line-height: 60px;
+}
+#professor_box div span{
+	font-weight: 500;	
+	font-size: 35px;
+}
+.append_word{
+	color: gray;
+	position: absolute;
+	top:-7px;
+	left: -5px;
+	background: rgba(41, 170, 204,1)!important;
+}
+
+#footer{
+	margin-top: 20px;
+	height:150px;
+	width: 100%;
+	background:deepskyblue;
+	position: relative;
+	text-align: center;
+}
+footer h2{
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 10px;
+}
+footer h2 a{
+	color: white;
+}
+footer ul{
+	display: inline-block;
+	position: relative;
+	text-align: center;
+}
+footer ul li{
+	font-family:Audiowide-Regular;
+	float: left;
+	display: inline;
+	padding: 10px;
+}
+footer ul li a{
+	color: white;
+}
+#footer_footer{
+	font-size: 14px;
+}
+#side{
+	position: fixed;
+	width: 100px;
+	height: 200px;
+	right: -5px;
+	top:50%;
+	margin-top: -120px;
+	overflow: hidden;
+}
+#talk{
+	width: 100px;
+	height: 90px;
+	line-height: 90px;;
+}
+#back_top{
+	width:100px;
+	height: 70px;
+	line-height: 70px;
+}
+.medium{
+	width: 100px;
+	height: 2px;
+	background: red;
+	display: block;
+}
+#side_close{
+	width: 100px;
+	height: 36px;
+	display:block;
+	background: #c43a22;
+	line-height: 38px;
+	text-align: center;
+}
+#side_close a{
+	color: black;
+}
+#talk span,#back_top span{
+	display: block;
+	background: #ff5e46;
+	color: white;
+}
+#talk span:before{
+	content: '\260e';
+	font-size: 30px;
+}
+#back_top span:before{
+	content: '\261d';
+	font-size: 50px;
+}
+#side_close span:before{
+	content: '\2716';
+	font-size: 30px;
+	left: 0;
+	position: absolute;
+}
+#back_top span:hover,#talk span:hover{
+	background: red
+}
+
